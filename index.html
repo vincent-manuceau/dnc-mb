@@ -1,0 +1,414 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<!--meta name="viewport" content="width=device-width, initial-scale=1"-->
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <meta name="viewport" content="width=device-width; initial-scale=1.0; maximum-scale=1.0; user-scalable=0;" />
+	<title>DNC - Mass and Balance Calculator</title>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+            font-size:large;
+        }
+        
+        input {
+            font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+            font-size:larger;
+            width: 150px;
+            
+        }
+
+        select {
+            font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+            font-size:larger;
+            width: 170px;
+           
+            
+        }
+        
+        </style>
+</head>
+<body>
+    <center>
+
+        <img style="width:60%;" src="data:image/jpeg;base64,/9j/4Q/+RXhpZgAATU0AKgAAAAgABgESAAMAAAABAAEAAAEaAAUAAAABAAAAVgEbAAUAAAABAAAAXgEoAAMAAAABAAIAAAITAAMAAAABAAEAAIdpAAQAAAABAAAAZgAAAAAAAABIAAAAAQAAAEgAAAABAAeQAAAHAAAABDAyMjGRAQAHAAAABAECAwCgAAAHAAAABDAxMDCgAQADAAAAAQABAACgAgAEAAAAAQAAAcqgAwAEAAAAAQAAAGykBgADAAAAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA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">
+
+
+
+<div id="data">
+    <table>
+        <tr><td style="text-align: left;">
+Airplane </td><td style="text-align: left;"> <select id="registration">
+	<option value="">Registration</option>
+	<!--<option value="ecokk">EC-OKK</option>
+    <option value="ecokl">EC-OKL</option>-->
+</select></td></tr>
+
+<tr><td style="text-align: left;">Fuel </td><td style="text-align: left;"> <input type="number" pattern="\d*" id="FuelInput" name="FuelInput" value="60"/> liters</td></tr>
+<tr><td style="text-align: left;">Pilot&amp;Pax </td><td style="text-align: left;"> <input type="number" pattern="\d*" id="PilotPaxInput" name="PilotPaxInput" value="150"/> kg</td></tr>
+<tr><td style="text-align: left;">Bags </td><td style="text-align: left;"> <input type="number" pattern="\d*" id="BagsInput" name="BagsInput" value="5"/> kg</td></tr>
+</table><br/>
+
+<input type="submit" id="process" value="Process M&amp;B" style="display:none; width:200px"/>
+</div>
+<div id="result" style="display:none; text-align: center;">
+    <h2>Mass &amp; Balance for <span id="airplane"></span></h2>
+    <style>
+        tr{text-align: center;}
+        th{text-align: left;}
+    </style>
+    <table>
+        <tr>
+          <th></th>
+          <th>Weight (kg)</th>
+          <th>Arm (m)</th>
+          <th>Moment (kg*m)</th>
+        </tr>
+        <tr>
+          <th>BEM</th>
+          <td id="EmptyWeight">0</td>
+          <td id="EmptyWeightArm">0</td>
+          <td id="EmptyWeightMoment">0</td>
+        </tr>
+        <tr>
+            <th>Fuel</th>
+            <td id="Fuel">0</td>
+            <td id="FuelArm">0</td>
+            <td id="FuelMoment">0</td>
+        </tr>
+        <tr>
+            <th>PilotPax</th>
+            <td id="PilotPax">0</td>
+            <td id="PilotPaxArm">0</td>
+            <td id="PilotPaxMoment">0</td>
+        </tr>
+        <tr>
+            <th>Bags</th>
+            <td id="Bags">0</td>
+            <td id="BagsArm">0</td>
+            <td id="BagsMoment">0</td>
+        </tr>
+        <tr>
+            <th>Total</th>
+            <td id="TotalWeight">0</td>
+            <td id="TotalArm">0</td>
+            <td id="TotalMoment">0</td>
+        </tr>
+        
+      </table> 
+
+    <br/>CG Range : Min <span id="MinCG"></span> - <span id="CG"></span> - Max <span id="MaxCG"></span>
+
+    <br/>Max Weight : <span id="MaxWeight"></span> - Current Weight : <span id="CurrentWeight"></span>
+
+</div>
+    </center>
+<script>
+ const airplane_data = 
+    {
+        "ecokk" : { 
+        Name: "EC-OKK",
+        EmptyWeight : 437,
+        EmptyWeightArm :1.871,
+        EmptyWeightMoment :817.1,
+        FuelArm : 2.209,
+        PilotPaxArm : 1.8,
+        BagsArm : 2.417,
+        MaxWeight : 650,
+        MinCG : 1.841,
+        MaxCG : 1.978,    
+    },
+    "ecokl" : { 
+        Name: "EC-OKL",
+        EmptyWeight : 438,
+        EmptyWeightArm :1.874,
+        EmptyWeightMoment :821.1,
+        FuelArm : 2.209,
+        PilotPaxArm : 1.8,
+        BagsArm : 2.417,
+        MaxWeight : 650,   
+        MinCG : 1.841,
+        MaxCG : 1.978, 
+    },
+    "ecoka" : { 
+        Name: "EC-OKA",
+        EmptyWeight : 434,
+        EmptyWeightArm :1.855,
+        EmptyWeightMoment :805.2,
+        FuelArm : 2.209,
+        PilotPaxArm : 1.8,
+        BagsArm : 2.417,
+        MaxWeight : 650,   
+        MinCG : 1.841,
+        MaxCG : 1.978, 
+    },"ecolm" : { 
+        Name: "EC-OLM",
+        EmptyWeight : 432,
+        EmptyWeightArm :1.865,
+        EmptyWeightMoment :805.9,
+        FuelArm : 2.209,
+        PilotPaxArm : 1.8,
+        BagsArm : 2.417,
+        MaxWeight : 650,   
+        MinCG : 1.841,
+        MaxCG : 1.978, 
+    },
+    "ecokr" : { 
+        Name: "EC-OKR",
+        EmptyWeight : 436,
+        EmptyWeightArm :1.872,
+        EmptyWeightMoment :816.6,
+        FuelArm : 2.209,
+        PilotPaxArm : 1.8,
+        BagsArm : 2.417,
+        MaxWeight : 650,   
+        MinCG : 1.841,
+        MaxCG : 1.978, 
+    },
+    "ecoll" : { 
+        Name: "EC-OLL",
+        EmptyWeight : 435,
+        EmptyWeightArm :1.871,
+        EmptyWeightMoment :814.3,
+        FuelArm : 2.209,
+        PilotPaxArm : 1.8,
+        BagsArm : 2.417,
+        MaxWeight : 650,   
+        MinCG : 1.841,
+        MaxCG : 1.978, 
+    },
+    "ecomd" : { 
+        Name: "EC-OMD",
+        EmptyWeight : 426,
+        EmptyWeightArm :1.864,
+        EmptyWeightMoment :794.2,
+        FuelArm : 2.209,
+        PilotPaxArm : 1.8,
+        BagsArm : 2.417,
+        MaxWeight : 650,   
+        MinCG : 1.841,
+        MaxCG : 1.978, 
+    },
+    "ecome" : { 
+        Name: "EC-OME",
+        EmptyWeight : 434,
+        EmptyWeightArm :1.867,
+        EmptyWeightMoment :810.4,
+        FuelArm : 2.209,
+        PilotPaxArm : 1.8,
+        BagsArm : 2.417,
+        MaxWeight : 650,   
+        MinCG : 1.841,
+        MaxCG : 1.978, 
+    },
+    "ecomf" : { 
+        Name: "EC-OMF",
+        EmptyWeight : 426,
+        EmptyWeightArm :1.856,
+        EmptyWeightMoment :790.7,
+        FuelArm : 2.209,
+        PilotPaxArm : 1.8,
+        BagsArm : 2.417,
+        MaxWeight : 650,   
+        MinCG : 1.841,
+        MaxCG : 1.978, 
+    },
+    "ecolk" : { 
+        Name: "EC-OLK",
+        EmptyWeight : 428,
+        EmptyWeightArm :1.866,
+        EmptyWeightMoment :798.7,
+        FuelArm : 2.209,
+        PilotPaxArm : 1.8,
+        BagsArm : 2.417,
+        MaxWeight : 650,   
+        MinCG : 1.841,
+        MaxCG : 1.978, 
+    },
+    "ecojp" : { 
+        Name: "EC-OJP",
+        EmptyWeight : 426,
+        EmptyWeightArm :1.852,
+        EmptyWeightMoment :789,
+        FuelArm : 2.209,
+        PilotPaxArm : 1.8,
+        BagsArm : 2.417,
+        MaxWeight : 650,   
+        MinCG : 1.841,
+        MaxCG : 1.978, 
+    },
+    "ecomi" : { 
+        Name: "EC-OMI",
+        EmptyWeight : 430,
+        EmptyWeightArm :1.863,
+        EmptyWeightMoment :801.4,
+        FuelArm : 2.209,
+        PilotPaxArm : 1.8,
+        BagsArm : 2.417,
+        MaxWeight : 650,   
+        MinCG : 1.841,
+        MaxCG : 1.978, 
+    },
+    "ecomj" : { 
+        Name: "EC-OMJ",
+        EmptyWeight : 430,
+        EmptyWeightArm :1.875,
+        EmptyWeightMoment :806.6,
+        FuelArm : 2.209,
+        PilotPaxArm : 1.8,
+        BagsArm : 2.417,
+        MaxWeight : 650,   
+        MinCG : 1.841,
+        MaxCG : 1.978, 
+    },
+    "ecomh" : { 
+        Name: "EC-OMH",
+        EmptyWeight : 430,
+        EmptyWeightArm :1.858,
+        EmptyWeightMoment :799.7,
+        FuelArm : 2.209,
+        PilotPaxArm : 1.8,
+        BagsArm : 2.417,
+        MaxWeight : 650,   
+        MinCG : 1.841,
+        MaxCG : 1.978, 
+    },
+};
+
+    var option = '';
+    for (let i in airplane_data){
+        console.log(airplane_data[i].Name)
+        option += '<option value="'+ i + '">' + airplane_data[i].Name + '</option>';
+    }
+    $('#registration').append(option);
+
+
+    let Registration = "";
+    let EmptyWeight = 435
+    let Fuel = 43
+    let PilotPax = 150
+    let Baggage = 5
+
+
+	$( "#registration" )
+	  .on( "change", function() {
+        $("#result").hide();
+        $("#process").show();
+	    Registration =  $( "#registration").val();
+        if (Registration != ''){
+            d = airplane_data[Registration];
+            console.log(JSON.stringify(d));
+
+            if (JSON.stringify(d) != ''){
+
+                $("#airplane").text(d.Name);
+
+                $("#EmptyWeight").text(d.EmptyWeight);
+                $("#EmptyWeightArm").text(d.EmptyWeightArm);
+                $("#EmptyWeightMoment").text(d.EmptyWeightMoment);
+                //$("#Fuel").text(parseInt($("FuelInput").val()));
+                $("#FuelArm").text(d.FuelArm);
+                //$("#FuelMoment").text();
+                $("#PilotPaxArm").text(d.PilotPaxArm);
+                $("#BagsArm").text(d.BagsArm);
+
+
+                $("#MinCG").text(d.MinCG);
+                $("#MaxCG").text(d.MaxCG);
+                $("#MaxWeight").text(d.MaxWeight);
+
+            }
+
+
+        }	    
+	  } )
+      function isNumber(value) {
+        return typeof value === 'number';
+        }
+
+      $( "#process" )
+	  .on( "click", function() {
+        let Fuel = $("#FuelInput").val();
+        let PilotPax = $("#PilotPaxInput").val();
+        let Bags = $("#BagsInput").val();
+
+        console.log(Fuel +" "+ PilotPax+" "+  Bags)
+
+        if (Fuel != '' && PilotPax != '' && Bags != '' &&
+        isNumber(parseInt(Fuel)) && isNumber(parseInt(PilotPax)) && isNumber(parseInt(Bags)) 
+        ){
+           let FuelWeight = Math.round(parseInt(Fuel)*0.72);
+
+            $("#Fuel").text(FuelWeight);
+            $("#FuelMoment").text((FuelWeight*parseFloat($("#FuelArm").text())).toFixed(3));
+
+            $("#PilotPax").text(parseInt(PilotPax));
+            $("#PilotPaxMoment").text((parseInt(PilotPax)*parseFloat($("#PilotPaxArm").text())).toFixed(3));
+
+            $("#Bags").text(parseInt(Bags));
+            $("#BagsMoment").text((parseInt(Bags)*parseFloat($("#BagsArm").text())).toFixed(3));
+
+            let totalMoment = (parseFloat($("#EmptyWeightMoment").text())+parseFloat($("#FuelMoment").text())+parseFloat($("#PilotPaxMoment").text())+parseFloat($("#BagsMoment").text())).toFixed(3);
+
+            let totalWeight = parseFloat($("#EmptyWeight").text())+parseFloat($("#Fuel").text())+parseFloat($("#PilotPax").text())+parseFloat($("#Bags").text());
+
+            let totalArm = (totalMoment / totalWeight).toFixed(3);
+
+            $("#TotalWeight").html("<strong>"+totalWeight+"</strong>");
+            $("#TotalArm").html("<strong>"+totalArm+"</strong>");
+            $("#TotalMoment").text(totalMoment);
+
+            $("#CurrentWeight").html("<strong>"+totalWeight+"<strong>");
+            $("#CG").html("<strong>"+totalArm+"<strong>");
+            
+            if (totalWeight > parseInt($("#MaxWeight").text())){
+                $("#TotalWeight").css("color","red");
+                $("#CurrentWeight").css("color","red");
+            }
+            else {
+                $("#TotalWeight").css("color","green");
+                $("#CurrentWeight").css("color","green");
+            }
+
+            if (parseFloat($("#MinCG").text()) > totalArm || parseFloat($("#MaxCG").text()) < totalArm){
+                $("#TotalArm").css("color","red");
+                $("#CG").css("color","red");
+            }
+            else{
+                $("#TotalArm").css("color","green");
+                $("#CG").css("color","green");
+            }
+
+        
+            $("#result").show();
+
+        }
+        else{
+            alert("KO")
+        }
+
+      });
+
+   // let Registration = "EC-OMI"
+
+    // let EmptyWeightArm = 1.871
+    // let FuelArm = 2.209
+    // let PilotPaxArm = 1.8
+    // let BaggageArm = 2.417
+
+
+    
+
+   // let TotalWeight = EmptyWeight + Fuel + PilotPax + Baggage
+
+
+
+
+
+	 
+</script>
+</body>
+</html>
