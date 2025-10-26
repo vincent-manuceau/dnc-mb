@@ -109,24 +109,46 @@ Airplane </td><td style="text-align: left;"> <select id="registration">
     <h2>Fuel Planning</h2>
     <style>#fuelPlanning input { text-align: center; width: 70px; }
     #fuelPlanning td {font-size:large;}
+    #fuelPlanningDecision td {font-size:large; font-weight: bold;}
+    #gonogo{font-size:larger;}
+
 
     </style>
     
-    <table id="fuelPlanning" border="1" contenteditable='true' style="width:80%">
-        <tr><th>Fluel Planning</th><th>Time</th><th>Fuel</th></tr>
-        <tr><th>1. StartUp &amp; Taxi</th><td><input type="number" pattern="\d*" inputmode="decimal" id="t1" value="0.1"></td><td id="f1"></td></tr>
-        <tr><th>2. Climb</th><td><input size="3" type="number" pattern="\d*" inputmode="decimal" id="t2" value="0.1"></td><td id="f2"></td></tr>
-        <tr><th>3. En Route</th><td><input type="number" pattern="\d*" inputmode="decimal" id="t3" value="0.7"></td><td id="f3"></td></tr>
-        <tr><th>4. Descent</th><td><input type="number" pattern="\d*" inputmode="decimal" id="t4" value="0.1"></td><td id="f4" ></td></tr>
-        <tr><th>5. Trip (2+3+4)</th><td><input readonly type="number" pattern="\d*" inputmode="decimal" id="t5" value="0.0"></td><td id="f5"></td></tr>
-        <tr><th>6. Alternate</th><td><input type="number" pattern="\d*" inputmode="decimal" id="t6" value="0.1"></td><td id="f6"></td></tr>
-        <tr><th>7. Contingency 0.1(5+6)</th><td><input readonly type="number" pattern="\d*" inputmode="decimal" id="t7" value="0.0"></td><td id="f7"></td></tr>
-        <tr><th>8. Reserve 45min</th><td><input type="number" pattern="\d*" inputmode="decimal" id="t8" value="0.75"></td><td id="f8"></td></tr>
-        <tr><th>9. Ramp Fuel (1+5+6+7+8)</th><td><input readonly type="number" pattern="\d*" inputmode="decimal" id="t9" value="0"></td><td id="f9"></td></tr>
-        <tr><th>10.Extra</th><td><input type="number" pattern="\d*" inputmode="decimal" id="t10" value="0.1"></td><td id="f10"></td></tr>
-        <tr><th>11. Maximum Ramp Fuel (9+10)</th><td><input type="number" pattern="\d*" inputmode="decimal" id="t11" value="0"></td><td id="f11"></td></tr>
+    <table id="fuelPlanning" border=1 contenteditable='true' style="width:80%">
+        <tr><th>Fluel Planning</th><th>Time (min)</th><th>Fuel (l)</th></tr>
+        <tr><th>1. StartUp &amp; Taxi</th><td><input type="number" pattern="\d*" id="t1" value="5"><br/><span id="t1h"></span></td><td id="f1"></td></tr>
+        <tr><th>2. Climb</th><td><input size="3" type="number" pattern="\d*" id="t2" value="5"><br/><span id="t2h"></span></td><td id="f2"></td></tr>
+        <tr><th>3. En Route</th><td><input type="number" pattern="\d*" id="t3" value="45"><br/><span id="t3h"></span></td><td id="f3"></td></tr>
+        <tr><th>4. Descent</th><td><input type="number" pattern="\d*" id="t4" value="5"><br/><span id="t4h"></span></td><td id="f4" ></td></tr>
+        <tr><th>5. Trip (2+3+4)</th><td><input disabled readonly type="number" pattern="\d*" id="t5" value="0"><br/><span id="t5h"></span></td><td id="f5"></td></tr>
+        <tr><th>6. Alternate</th><td><input type="number" pattern="\d*" id="t6" value="30"><br/><span id="t6h"></span></td><td id="f6"></td></tr>
+        <tr><th>7. Contingency 0.1(5+6)</th><td><input disabled readonly type="number" pattern="\d*" id="t7" value="0"><br/><span id="t7h"></span></td><td id="f7"></td></tr>
+        <tr><th>8. Reserve 45min</th><td><input type="number" pattern="\d*" id="t8" value="45"><br/><span id="t8h"></span></td><td id="f8"></td></tr>
+        <tr><th>9. Ramp Fuel (1+5+6+7+8)</th><td><input disabled  readonly type="number" pattern="\d*" id="t9" value="0"><br/><span id="t9h"></span></td><td id="f9"></td></tr>
+        <tr><th>10.Extra</th><td><input disabled readonly type="number" pattern="\d*" id="t10" value="0"><br/><span id="t10h"></span></td><td id="f10"></td></tr>
+        <tr><th>11. Maximum Ramp Fuel (9+10)</th><td><input type="number" pattern="\d*" id="t11" value="0"><br/><span id="t11h"></span></td><td id="f11"></td></tr>
     </table><br/>
     <input type="submit" id="updateFuel" value="Update Planning" style="display:true; width:200px"/>
+
+    <br/><br/>
+    <h2>Decision</h2>
+    <table id="fuelPlanningDecision"  contenteditable='true' style="width:80%">
+        <tr><th>Actual Fuel</th><td><span id="actualFuel"></span></td></tr>
+        <tr><th>Min fuel at landing</th><td><span id="minFuelTanks"></span></td></tr>
+        
+        <tr><th>Max consumption</th><td><span id="expectedConsumption"></span></td></tr>
+        <tr><th>Mission Time</th><td><span id="missionTime"></span></td></tr>
+        <tr><th>Go / No Go</th><td><span id="gonogo"></span></td></tr>
+    </table>
+    <br/><br/>
+
+
+
+    <input type="submit" id="print-button" onclick="window.print();" value="Print PDF">
+
+    <br/><br/>
+
 
 
 
@@ -137,6 +159,11 @@ Airplane </td><td style="text-align: left;"> <select id="registration">
 
     </center>
 <script>
+function isNumber(value) {
+        return !isNaN(value) && typeof value === 'number';
+        }
+
+
  const airplane_data = 
     {
         "ecokk" : { 
@@ -316,6 +343,8 @@ Airplane </td><td style="text-align: left;"> <select id="registration">
     $('#registration').append(option);
 
 
+    let consumption = 18;
+
     let Registration = "";
     let EmptyWeight = 435
     let Fuel = 43
@@ -355,9 +384,7 @@ Airplane </td><td style="text-align: left;"> <select id="registration">
 
         }       
       } )
-      function isNumber(value) {
-        return typeof value === 'number';
-        }
+      
 
       $( "#process" )
       .on( "click", function() {
@@ -425,65 +452,102 @@ Airplane </td><td style="text-align: left;"> <select id="registration">
 
 
       function updateFuelGrid(){
-        const consumption = 18;
+        
         console.log($("#t3").val());
-        let t1 = parseFloat($("#t1").val().replaceAll(",",".")).toFixed(2);
-        let t2 = parseFloat($("#t2").val().replaceAll(",",".")).toFixed(2);
-        let t3 = parseFloat($("#t3").val().replaceAll(",",".")).toFixed(2);
-        let t4 = parseFloat($("#t4").val().replaceAll(",",".")).toFixed(2);
+        let t1 = parseInt($("#t1").val());
+        let t2 = parseInt($("#t2").val());
+        let t3 = parseInt($("#t3").val());
+        let t4 = parseInt($("#t4").val());
 
-        let t5 = (parseFloat(t2)+parseFloat(t3)+parseFloat(t4)).toFixed(2);
+        let t5 = (parseInt(t2)+parseInt(t3)+parseInt(t4));
         $("#t5").val(t5);
 
-        let t6 = parseFloat($("#t6").val().replaceAll(",",".")).toFixed(2);
+        let t6 = parseInt($("#t6").val());
         
-        let t7 = (0.1*(parseFloat(t5)+parseFloat(t6))).toFixed(2);
+        let t7 = Math.round(0.1*(parseInt(t5)+parseInt(t6)));
         $("#t7").val(t7);
 
-        let t8 = parseFloat($("#t8").val().replaceAll(",",".")).toFixed(2);
+        let t8 = parseInt($("#t8").val());
 
-        let t9 = (parseFloat(t1) + parseFloat(t5) + parseFloat(t6) + parseFloat(t7) +parseFloat(t8)).toFixed(2) ;
+        let t9 = (parseInt(t1) + parseInt(t5) + parseInt(t6) + parseInt(t7) +parseInt(t8));
         $("#t9").val(t9);
 
         
         
-        let t11 = (parseFloat($("#FuelInput").val())/consumption).toFixed(2) ;
-        let t10 = (t11-t9).toFixed(2) ;
+        let t11 = Math.round(60*parseInt($("#FuelInput").val())/(consumption)) ;
+        let t10 = Math.round(t11-t9) ;
 
         $("#t10").val(t10);
         $("#t11").val(t11);
       
         
         console.log([t1, t2, t3, t4, t5, t6, t7, t8, t9,t10,t11])
-        if (!isNaN(t1) && !isNaN(t2) && !isNaN(t3) && !isNaN(t4) && !isNaN(t5) && !isNaN(t6) && !isNaN(t7) && !isNaN(t8) && !isNaN(t9)){// && !isNaN(t10) && !isNaN(t11)){
-            $("#f1").html(Math.round(consumption*t1));
-            $("#f2").html(Math.round(consumption*t2));
-            $("#f3").html(Math.round(consumption*t3));
-            $("#f4").html(Math.round(consumption*t4));
-            $("#f5").html(Math.round(consumption*t5));
-            $("#f6").html(Math.round(consumption*t6));
-            $("#f7").html(Math.round(consumption*t7));
-            $("#f8").html(Math.round(consumption*t8));
-            $("#f9").html(Math.round(consumption*t9));
-           $("#f10").html(Math.round(consumption*t10));
-            $("#f11").html(Math.round(consumption*t11));
+        if (isNumber(t1) && isNumber(t2) && isNumber(t3) && isNumber(t4) && isNumber(t5) && isNumber(t6) && isNumber(t7) && isNumber(t8) && isNumber(t9) && isNumber(t10) && isNumber(t11)){
+            $("#f1").html(Math.round(consumption*t1/60));
+            $("#f2").html(Math.round(consumption*t2/60));
+            $("#f3").html(Math.round(consumption*t3/60));
+            $("#f4").html(Math.round(consumption*t4/60));
+            $("#f5").html(Math.round(consumption*t5/60));
+            $("#f6").html(Math.round(consumption*t6/60));
+            $("#f7").html(Math.round(consumption*t7/60));
+            $("#f8").html(Math.round(consumption*t8/60));
+            $("#f9").html(Math.round(consumption*t9/60));
+            $("#f10").html(Math.round(consumption*t10/60));
+            $("#f11").html(Math.round(consumption*t11/60));
             
+
+            $("#t1h").html((t1/60).toFixed(2)+" h");
+            $("#t2h").html((t2/60).toFixed(2)+" h");
+            $("#t3h").html((t3/60).toFixed(2)+" h");
+            $("#t4h").html((t4/60).toFixed(2)+" h");
+            $("#t5h").html((t5/60).toFixed(2)+" h");
+            $("#t6h").html((t6/60).toFixed(2)+" h");
+            $("#t7h").html((t7/60).toFixed(2)+" h");
+            $("#t8h").html((t8/60).toFixed(2)+" h");
+            $("#t9h").html((t9/60).toFixed(2)+" h");
+            $("#t10h").html((t10/60).toFixed(2)+" h");
+            $("#t11h").html((t11/60).toFixed(2)+" h");
 
             $("#f9").css("font-weight","bold");
             $("#t9").css("font-weight","bold");
+            $("#t9h").css("font-weight","bold");
             $("#f10").css("font-weight","bold");
             $("#t10").css("font-weight","bold");
+            $("#t10h").css("font-weight","bold");
             $("#f11").css("font-weight","bold");
             $("#t11").css("font-weight","bold");
+            $("#t11h").css("font-weight","bold");
 
             if (t10 > 0){
                 $("#f10").css("color","green");
                 $("#t10").css("color","green");
+                $("#t10h").css("color","green");
             }
             else{
                 $("#f10").css("color","red");
                 $("#t10").css("color","red");
+                $("#t10h").css("color","red");
 
+            }
+
+            let minFuelTanks = (t6+t8)/60;
+            let expectedConsumption = (t11-t6-t8)/60 ;
+            let missionTime = (t1+t5)/60;
+
+            $("#minFuelTanks").html(minFuelTanks.toFixed(2)+" h");
+            $("#expectedConsumption").html(expectedConsumption.toFixed(2)+" h");
+            $("#missionTime").html(missionTime.toFixed(2)+" h");
+            $("#actualFuel").html((t11/60).toFixed(2)+" h");
+
+
+
+            if (expectedConsumption > missionTime){
+                $("#gonogo").html("GO");
+                $("#gonogo").css("color","green");
+            }
+            else {
+                $("#gonogo").html("NO GO");
+                $("#gonogo").css("color","red");
             }
 
         }
@@ -533,9 +597,23 @@ Airplane </td><td style="text-align: left;"> <select id="registration">
       }); 
 
 
+      $("#t11").change(function(){
+        t11 = parseInt($("#t11").val());
+        if (isNumber(t11)){
+            $("#FuelInput").val(Math.round(t11*consumption/60));
+            $("#process").trigger( "click" );
+            //updateFuelGrid();
+        }
+
+
+        
+      }); 
+
+
       //DEVMODE
    //$("#result").show();
    //window.scrollTo(0, document.body.scrollHeight);
+
 
 
      
